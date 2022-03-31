@@ -1,0 +1,105 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LocalPlayer = Players.LocalPlayer
+local CurrentCamera = workspace.CurrentCamera
+
+    for i,v in pairs(workspace.players:GetChildren()) do
+        if (v:FindFirstChild("owner")) then
+            if (v.owner.Value == LocalPlayer.Name) then
+            end
+        end
+    end
+    
+    return Car
+end
+
+RunService.Stepped:Connect(function()
+    local Car = GetCar()
+    
+    if local v2 = script.Parent
+local v7 = v2:WaitForChild("Humanoid")
+local v8 = false
+local v9 = false
+local v10 = false
+local v11 = true
+local v12 = v7.JumpPower
+local v13 = 0
+local function onJumpRequest_1()
+    local v16 = v2
+    if not v16 then
+        v16 = v7
+        if not v16 then
+            v16 = v2
+            local v18 = v16:IsDescendantOf(workspace)
+            if not v18 then
+                v18 = v7
+                local v19 = v18:GetState()
+                local v20 = Enum.HumanoidStateType.Dead
+                if v19 == v20 then
+                    return 
+                end
+                v19 = v8
+                if not v19 then
+                    v19 = v9
+                    if v19 then
+                        v19 = false
+                        v11 = v19
+                        v19 = true
+                        v9 = v19
+                        v19 = v7
+                        v20 = v12 * 1.76
+                        v19.JumpPower = v20
+                        v19 = v7
+                        v19:ChangeState(Enum.HumanoidStateType.Jumping)
+                    end
+                end
+                return 
+            end
+        end
+    end
+end
+onJumpRequest = onJumpRequest_1
+onJumpRequest_1 = v7.StateChanged
+onJumpRequest_1:connect(function(p1, p2)
+    local v24 = Enum.HumanoidStateType.Landed
+    if p2 == v24 then
+        v24 = false
+        v8 = v24
+        v24 = false
+        v9 = v24
+        v24 = true
+        v11 = v24
+        v24 = v7
+        v24.JumpPower = v12
+        return 
+    end
+    local v27 = Enum.HumanoidStateType.Freefall
+    if p2 == v27 then
+        v27 = wait
+        v25 = 0.175
+        v27(v25)
+        v8 = true
+    end
+end)
+(v7:GetPropertyChangedSignal("Jump")):Connect(function()
+    local v33 = tick()
+    v13 = v33
+    wait(0.175)
+    local v36 = v13
+    if v33 == v36 then
+        v36 = v7.Jump
+        v10 = v36
+    end
+    local v38 = v10
+    if not v38 then
+        v38 = v11
+        if not v38 then
+            v38 = onJumpRequest
+            v38()
+        end
+    end
+end)
+game:GetService("UserInputService").JumpRequest:connect(onJumpRequest)
